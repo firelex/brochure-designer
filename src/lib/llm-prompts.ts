@@ -13,7 +13,12 @@ export interface GenerationContext {
     previousAttempt?: BrochureContent;
     overflow?: number;
     suggestions?: string[];
+    isValid?: boolean;
+    totalHeight?: number;
+    availableHeight?: number;
   };
+  existingContent?: BrochureContent;
+  isOptimization?: boolean;
 }
 
 export function createBrochurePrompt(context: GenerationContext): string {

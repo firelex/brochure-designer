@@ -33,33 +33,72 @@ export const LayoutValidator: React.FC<LayoutValidatorProps> = ({
 
   // Re-validate when content changes using real measurements
   useEffect(() => {
-    console.log('LayoutValidator: Content changed, re-measuring...');
+    console.log('LayoutValidator: Content changed, re-measuring...', { 
+      contentTitle: content?.title, 
+      contentSections: content?.sections?.length,
+      measurementMode 
+    });
+    
     setIsLoading(true);
-    // Add a small delay to ensure DOM has updated after content change
+    
+    // Reset validation to loading state
+    setValidation({
+      isValid: false,
+      totalHeight: 0,
+      availableHeight: 807,
+      overflow: 0,
+      suggestions: ['Measuring...']
+    });
+    
+    // Add multiple attempts with increasing delays to ensure DOM has updated
     const measurementTimer = setTimeout(() => {
       if (measurementMode === 'dom') {
-        validateActualRendering()
-          .then(result => {
-            console.log('LayoutValidator: New measurement result:', result);
-            setValidation(result);
-            setIsLoading(false);
-          })
-          .catch((error) => {
-            console.log('LayoutValidator: Measurement failed:', error);
-            // Fallback to basic structure if DOM measurement fails
-            setValidation({
-              isValid: false,
-              totalHeight: 0,
-              availableHeight: 807,
-              overflow: 0,
-              suggestions: ['Unable to measure - check preview is visible']
-            });
-            setIsLoading(false);
+        console.log('LayoutValidator: Starting DOM measurement...');
+        
+        // Force a re-flow before measuring
+        const previewContainer = document.getElementById('ui-brochure-preview');
+        if (previewContainer) {
+          console.log('LayoutValidator: Preview container found, content:', previewContainer.innerHTML.length, 'chars');
+          // Force reflow
+          previewContainer.offsetHeight;
+          
+          // Wait a bit more for any async rendering
+          setTimeout(() => {
+            validateActualRendering()
+              .then(result => {
+                console.log('LayoutValidator: DOM measurement complete:', result);
+                setValidation(result);
+                setIsLoading(false);
+              })
+              .catch((error) => {
+                console.log('LayoutValidator: DOM measurement failed:', error);
+                // Fallback to basic structure if DOM measurement fails
+                setValidation({
+                  isValid: false,
+                  totalHeight: 0,
+                  availableHeight: 807,
+                  overflow: 0,
+                  suggestions: ['Unable to measure - check preview is visible']
+                });
+                setIsLoading(false);
+              });
+          }, 200);
+        } else {
+          console.log('LayoutValidator: Preview container not found!');
+          setValidation({
+            isValid: false,
+            totalHeight: 0,
+            availableHeight: 807,
+            overflow: 0,
+            suggestions: ['Preview container not found']
           });
+          setIsLoading(false);
+        }
       } else if (measurementMode === 'component') {
+        console.log('LayoutValidator: Starting component measurement...');
         setShowMeasurementRenderer(true);
       }
-    }, 500); // 500ms delay to ensure content has rendered
+    }, 1000); // Even longer delay
 
     return () => clearTimeout(measurementTimer);
   }, [content, measurementMode]);

@@ -73,7 +73,7 @@ const ExportButton: React.FC<ExportButtonProps> = ({ method = 'url', brochureCon
       variant="primary"
       onClick={handleExportViaURL}
       loading={isGeneratingPDF}
-      disabled={isGeneratingPDF}
+      disabled={isGeneratingPDF || !brochureContent}
     >
       {isGeneratingPDF ? 'Generating PDF...' : 'Export as PDF'}
     </Button>

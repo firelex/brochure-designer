@@ -1,15 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
-import UIBasedA4 from '@/components/brochure/UIBasedA4';
-import TestBrochure from '@/components/brochure/TestBrochure';
 import { BrochureRenderer } from '@/components/brochure/BrochureRenderer';
 import LayoutValidator from '@/components/brochure/LayoutValidator';
 import ExportButton from './ExportButton';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { BrochureContent } from '@/types/brochure';
-import sampleBrochureData from '@/data/sample-brochure-single-page.json';
-import sampleOverflowData from '@/data/sample-brochure-overflow.json';
 
 const UIBrochurePage: React.FC = () => {
   // State for brochure customization
@@ -19,55 +15,41 @@ const UIBrochurePage: React.FC = () => {
   const [fontSize, setFontSize] = useState<'small' | 'medium' | 'large'>('medium');
   const [colorScheme, setColorScheme] = useState<'blue' | 'green' | 'purple' | 'orange'>('blue');
   const [layoutDensity, setLayoutDensity] = useState<'compact' | 'normal' | 'spacious'>('normal');
-  const [sampleType, setSampleType] = useState<'compact' | 'overflow'>('compact');
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationError, setGenerationError] = useState<string | null>(null);
   const [contentVersion, setContentVersion] = useState(0);
   
-  // Brochure content state
-  const [brochureContent, setBrochureContent] = useState<BrochureContent>(() => {
-    const content = sampleBrochureData as BrochureContent;
-    return {
-      ...content,
-      settings: {
-        theme,
-        pageCount,
-        fontSize,
-        colorScheme,
-        layoutDensity
-      }
-    };
-  });
+  // Brochure content state - start empty
+  const [brochureContent, setBrochureContent] = useState<BrochureContent | null>(null);
+  const [lastMeasurement, setLastMeasurement] = useState<any>(null);
 
-  // Update content when sample type changes
+  // Update settings when controls change (only if content exists)
   React.useEffect(() => {
-    const sourceData = sampleType === 'overflow' ? sampleOverflowData : sampleBrochureData;
-    const content = sourceData as BrochureContent;
-    setBrochureContent({
-      ...content,
-      settings: {
-        theme,
-        pageCount,
-        fontSize,
-        colorScheme,
-        layoutDensity
-      }
-    });
-  }, [sampleType, theme, pageCount, fontSize, colorScheme, layoutDensity]);
-  
-  // Update brochure settings when controls change
-  React.useEffect(() => {
-    setBrochureContent(prev => ({
-      ...prev,
-      settings: {
-        theme,
-        pageCount,
-        fontSize,
-        colorScheme,
-        layoutDensity
-      }
-    }));
+    if (brochureContent) {
+      setBrochureContent(prev => prev ? {
+        ...prev,
+        settings: {
+          theme,
+          pageCount,
+          fontSize,
+          colorScheme,
+          layoutDensity
+        }
+      } : null);
+      setContentVersion(prev => prev + 1);
+    }
   }, [theme, pageCount, fontSize, colorScheme, layoutDensity]);
+
+  // Measure content whenever it changes
+  React.useEffect(() => {
+    if (brochureContent) {
+      // Small delay to ensure DOM is updated
+      setTimeout(() => {
+        console.log('Effect: Measuring content after update...');
+        measureAndUpdateValidation();
+      }, 500);
+    }
+  }, [brochureContent, contentVersion]);
   
   const handleOptimizeContent = async (optimizedContent: BrochureContent) => {
     setBrochureContent(optimizedContent);
@@ -81,13 +63,79 @@ const UIBrochurePage: React.FC = () => {
 
   // Handle real measurement-based optimization
   const handleRealOptimization = async (realMeasurement: any) => {
-    if (realMeasurement.overflow <= 50) return; // Only optimize if significant overflow
+    // Not used anymore - we handle optimization on the server
+  };
 
-    console.log('Triggering real measurement optimization:', realMeasurement);
+  // Simple function to directly measure the preview and update validation display
+  const measureAndUpdateValidation = () => {
+    console.log('Direct measurement: Starting...');
     
+    const previewContainer = document.getElementById('ui-brochure-preview');
+    if (!previewContainer) {
+      console.log('Direct measurement: No preview container found');
+      return null;
+    }
+
+    console.log('Direct measurement: Preview container found, checking for A4 page...');
+    const a4Page = previewContainer.firstElementChild as HTMLElement;
+    if (!a4Page) {
+      console.log('Direct measurement: No A4 page found');
+      return null;
+    }
+
+    console.log('Direct measurement: A4 page found, measuring heights...');
+    
+    // Check if we need to look inside the A4 page for the actual content
+    const contentWrapper = a4Page.querySelector('.flex.flex-col.h-full') || a4Page;
+    
+    console.log('Direct measurement: Measuring element:', {
+      element: contentWrapper === a4Page ? 'A4 page itself' : 'Content wrapper inside A4',
+      scrollHeight: contentWrapper.scrollHeight,
+      offsetHeight: contentWrapper.offsetHeight,
+      clientHeight: contentWrapper.clientHeight,
+      className: (contentWrapper as HTMLElement).className,
+      childrenCount: contentWrapper.children.length
+    });
+    
+    const actualHeight = contentWrapper.scrollHeight;
+    const availableHeight = 807; // A4_CONSTRAINTS.AVAILABLE_HEIGHT
+    const overflow = actualHeight - availableHeight;
+
+    const measurement = {
+      totalHeight: actualHeight,
+      availableHeight,
+      overflow,
+      isValid: overflow <= 0
+    };
+
+    console.log('Direct measurement: Results', JSON.stringify(measurement, null, 2));
+
+    // Update the validation display directly
+    const validationCard = document.querySelector('[data-validation-display]');
+    if (validationCard) {
+      const contentHeightSpan = validationCard.querySelector('[data-content-height]');
+      const overflowSpan = validationCard.querySelector('[data-overflow]');
+      const statusSpan = validationCard.querySelector('[data-status]');
+      
+      if (contentHeightSpan) contentHeightSpan.textContent = `${actualHeight}px`;
+      if (overflowSpan) overflowSpan.textContent = overflow > 0 ? `+${overflow}px` : `${overflow}px`;
+      if (statusSpan) statusSpan.textContent = overflow <= 0 ? 'Layout OK' : 'Layout Issues';
+    }
+
+    // Store the measurement for UI updates
+    setLastMeasurement(measurement);
+    
+    return measurement;
+  };
+
+  // Optimize with backend using real frontend measurements
+  const optimizeWithBackend = async (realMeasurement: any) => {
+    if (!brochureContent) return;
+
+    console.log('Frontend: Starting backend optimization with real measurements:', realMeasurement);
     setIsGenerating(true);
     setGenerationError(null);
-    
+
     try {
       const response = await fetch('/api/optimize-brochure', {
         method: 'POST',
@@ -100,20 +148,28 @@ const UIBrochurePage: React.FC = () => {
         })
       });
 
-      if (response.ok) {
-        const result = await response.json();
-        if (result.content) {
-          console.log(`Optimization improved overflow from ${result.originalOverflow}px`);
-          setBrochureContent(result.content);
-          setContentVersion(prev => prev + 1); // Force LayoutValidator re-render
-        }
-      } else {
-        const errorData = await response.json();
-        setGenerationError(`Optimization failed: ${errorData.error}`);
+      if (!response.ok) {
+        throw new Error(`Optimization failed: ${response.status}`);
       }
+
+      const result = await response.json();
+      
+      if (result.error) {
+        throw new Error(result.error);
+      }
+
+      console.log('Frontend: Backend optimization completed');
+      setBrochureContent(result.content);
+      setContentVersion(prev => prev + 1);
+      
+      // Re-measure after optimization
+      setTimeout(() => {
+        measureAndUpdateValidation();
+      }, 1000);
+      
     } catch (error) {
-      console.error('Real optimization failed:', error);
-      setGenerationError('Optimization failed - please try again');
+      console.error('Optimization error:', error);
+      setGenerationError(error instanceof Error ? error.message : 'Failed to optimize brochure');
     } finally {
       setIsGenerating(false);
     }
@@ -158,10 +214,27 @@ const UIBrochurePage: React.FC = () => {
 
       // Update content with generated brochure
       setBrochureContent(result.content);
-      setContentVersion(prev => prev + 1); // Force LayoutValidator re-render
+      setContentVersion(prev => prev + 1);
       
-      // Switch to showing the generated content instead of sample
-      setSampleType('compact'); // Reset sample type
+      // Measure the new content and potentially optimize
+      setTimeout(() => {
+        console.log('Frontend: Starting post-generation measurement...');
+        const measurement = measureAndUpdateValidation();
+        console.log('Frontend: Post-generation measurement result:', measurement);
+        
+        // If there's significant overflow, automatically optimize
+        if (measurement && measurement.overflow > 50) {
+          console.log('Frontend: Detected significant overflow, triggering backend optimization...');
+          console.log('Frontend: Overflow amount:', measurement.overflow, 'px');
+          optimizeWithBackend(measurement);
+        } else if (measurement && measurement.overflow > 0) {
+          console.log('Frontend: Minor overflow detected:', measurement.overflow, 'px - not optimizing');
+        } else if (measurement) {
+          console.log('Frontend: Content fits perfectly!');
+        } else {
+          console.log('Frontend: Failed to get measurement');
+        }
+      }, 1500);
       
     } catch (error) {
       console.error('Generation error:', error);
@@ -212,8 +285,11 @@ const UIBrochurePage: React.FC = () => {
                     <button
                       onClick={handleGenerateBrochure}
                       disabled={isGenerating || !brochureDescription.trim()}
-                      className="px-4 py-2 bg-accent-500 text-white rounded-lg font-medium hover:bg-accent-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      className="flex items-center gap-2 px-4 py-2 bg-accent-500 text-white rounded-lg font-medium hover:bg-accent-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
+                      {isGenerating && (
+                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                      )}
                       {isGenerating ? 'Generating...' : 'Generate with AI'}
                     </button>
                     
@@ -334,21 +410,6 @@ const UIBrochurePage: React.FC = () => {
                     </select>
                   </div>
 
-                  {/* Sample Content */}
-                  <div>
-                    <label className="block text-sm font-medium text-text-primary mb-2">
-                      Sample Content
-                    </label>
-                    <select
-                      value={sampleType}
-                      onChange={(e) => setSampleType(e.target.value as 'compact' | 'overflow')}
-                      className="w-full px-3 py-2 text-sm border border-border rounded-lg bg-background-overlay text-text-primary focus:outline-none focus:ring-2 focus:ring-accent-primary focus:border-transparent"
-                    >
-                      <option value="compact">Compact (Fits 1 Page)</option>
-                      <option value="overflow">Full Content (Overflows)</option>
-                    </select>
-                  </div>
-
                   {/* Export Button */}
                   <div className="md:col-span-2 lg:col-span-1">
                     <label className="block text-sm font-medium text-text-primary mb-2">
@@ -377,15 +438,64 @@ const UIBrochurePage: React.FC = () => {
           </Card>
         </div>
 
-        {/* Layout Validation */}
-        <div className="mb-8">
-          <LayoutValidator 
-            key={`layout-validator-${contentVersion}`}
-            content={brochureContent}
-            onOptimize={handleOptimizeContent}
-            onRealOptimize={handleRealOptimization}
-          />
-        </div>
+        {/* Simple Layout Validation - directly updated */}
+        {brochureContent && (
+          <div className="mb-8">
+            <Card data-validation-display>
+              <CardHeader>
+                <CardTitle className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span>Layout Validation</span>
+                    <span className="text-lg">📏</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={measureAndUpdateValidation}
+                      className="px-2 py-1 text-xs rounded bg-blue-100 text-blue-700 border border-blue-300 hover:bg-blue-200"
+                    >
+                      Refresh
+                    </button>
+                    {lastMeasurement && lastMeasurement.overflow > 0 && (
+                      <button
+                        onClick={() => {
+                          const currentMeasurement = measureAndUpdateValidation();
+                          if (currentMeasurement && currentMeasurement.overflow > 0) {
+                            console.log('Manual optimization triggered');
+                            optimizeWithBackend(currentMeasurement);
+                          }
+                        }}
+                        disabled={isGenerating}
+                        className="px-2 py-1 text-xs rounded bg-orange-100 text-orange-700 border border-orange-300 hover:bg-orange-200 disabled:opacity-50"
+                      >
+                        {isGenerating ? 'Optimizing...' : 'Optimize'}
+                      </button>
+                    )}
+                  </div>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="p-3 rounded-lg border bg-gray-50">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium" data-status>
+                        Measuring...
+                      </span>
+                      <span className="text-sm">
+                        {brochureContent.settings.pageCount} page{brochureContent.settings.pageCount > 1 ? 's' : ''}
+                      </span>
+                    </div>
+                    
+                    <div className="text-sm space-y-1">
+                      <div>Content Height: <span data-content-height>Measuring...</span></div>
+                      <div>Available Height: 807px</div>
+                      <div>Overflow: <span data-overflow>Calculating...</span></div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
 
         {/* Features */}
         <div className="mb-8">
@@ -443,14 +553,34 @@ const UIBrochurePage: React.FC = () => {
               <CardTitle>Report Preview</CardTitle>
             </CardHeader>
             <CardContent noPadding>
-              <div className="flex justify-center bg-background-secondary p-8 rounded-lg">
-                <div 
-                  id="ui-brochure-preview"
-                  className="transform scale-75 origin-top shadow-2xl"
-                  style={{ transformOrigin: 'top center' }}
-                >
-                  <BrochureRenderer content={brochureContent} />
-                </div>
+              <div className="flex justify-center bg-background-secondary p-8 rounded-lg min-h-[600px]">
+                {brochureContent ? (
+                  <div 
+                    id="ui-brochure-preview"
+                    className="transform scale-75 origin-top shadow-2xl"
+                    style={{ transformOrigin: 'top center' }}
+                  >
+                    <BrochureRenderer content={brochureContent} />
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center justify-center text-center py-20">
+                    {isGenerating ? (
+                      <>
+                        <div className="animate-spin rounded-full h-12 w-12 border-4 border-accent-500 border-t-transparent mb-4"></div>
+                        <h3 className="text-lg font-medium text-text-primary mb-2">Generating your brochure...</h3>
+                        <p className="text-text-secondary">This may take up to 30 seconds</p>
+                      </>
+                    ) : (
+                      <>
+                        <div className="w-16 h-16 bg-background-overlay rounded-lg flex items-center justify-center mb-4">
+                          <span className="text-2xl">📄</span>
+                        </div>
+                        <h3 className="text-lg font-medium text-text-primary mb-2">No brochure yet</h3>
+                        <p className="text-text-secondary">Enter a description and click "Generate with AI" to create your brochure</p>
+                      </>
+                    )}
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>

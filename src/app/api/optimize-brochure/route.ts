@@ -23,13 +23,18 @@ export async function POST(request: NextRequest) {
       validation: {
         previousAttempt: content,
         overflow: realMeasurement.overflow,
+        totalHeight: realMeasurement.totalHeight,
+        availableHeight: realMeasurement.availableHeight,
+        isValid: realMeasurement.isValid,
         suggestions: realMeasurement.suggestions || [
           `Content overflows by ${realMeasurement.overflow}px`,
           'Reduce content length significantly',
           'Use more compact descriptions',
           'Consider fewer sections'
         ]
-      }
+      },
+      existingContent: content,
+      isOptimization: true
     };
 
     const optimizedPrompt = createBrochurePrompt(optimizedContext);

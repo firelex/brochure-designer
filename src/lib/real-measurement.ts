@@ -12,7 +12,10 @@ export async function measureActualRenderedHeight(): Promise<{
     // Find the actual brochure preview container
     const previewContainer = document.getElementById('ui-brochure-preview');
     
+    console.log('Real measurement: Looking for preview container...');
+    
     if (!previewContainer) {
+      console.log('Real measurement: Preview container not found!');
       resolve({
         totalHeight: 0,
         availableHeight: 807,
@@ -21,6 +24,8 @@ export async function measureActualRenderedHeight(): Promise<{
       });
       return;
     }
+    
+    console.log('Real measurement: Preview container found, content length:', previewContainer.innerHTML.length);
 
     // The preview container has transform scale-75, so we need to account for that
     const scaleFactor = 0.75;
@@ -30,7 +35,10 @@ export async function measureActualRenderedHeight(): Promise<{
                    previewContainer.querySelector('.w-\\[794px\\]') ||
                    previewContainer.firstElementChild as HTMLElement;
     
+    console.log('Real measurement: A4 page element:', a4Page ? 'found' : 'not found');
+    
     if (!a4Page) {
+      console.log('Real measurement: A4 page element not found in preview container');
       resolve({
         totalHeight: 0,
         availableHeight: 807,
@@ -39,6 +47,8 @@ export async function measureActualRenderedHeight(): Promise<{
       });
       return;
     }
+    
+    console.log('Real measurement: A4 page element found, measuring...');
 
     // Wait for all rendering to complete
     requestAnimationFrame(() => {
@@ -47,15 +57,27 @@ export async function measureActualRenderedHeight(): Promise<{
         const actualHeight = a4Page.scrollHeight;
         const availableHeight = A4_CONSTRAINTS.AVAILABLE_HEIGHT; // 807px
         
+        console.log('Real measurement: Raw measurements:', {
+          actualHeight,
+          availableHeight,
+          scrollHeight: a4Page.scrollHeight,
+          offsetHeight: a4Page.offsetHeight,
+          clientHeight: a4Page.clientHeight
+        });
+        
         // Calculate overflow against available content height (consistent with estimation mode)
         const overflow = actualHeight - availableHeight;
         
-        resolve({
+        const result = {
           totalHeight: Math.round(actualHeight),
           availableHeight: availableHeight,
           overflow: Math.round(overflow),
           isValid: overflow <= 0
-        });
+        };
+        
+        console.log('Real measurement: Final result:', result);
+        
+        resolve(result);
       });
     });
   });
