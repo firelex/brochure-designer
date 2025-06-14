@@ -28,3 +28,11 @@ export { SearchInput } from './SearchInput';
 export { Modal, ModalActions } from './Modal';
 export { FileUpload } from './FileUpload';
 export { Checkbox } from './Checkbox';
+
+// Brochure-specific components
+export { Hero } from './Hero';
+export { ImageBlock } from './ImageBlock';
+export { FeatureGrid } from './FeatureGrid';
+export { Testimonial } from './Testimonial';
+export { ContactBlock } from './ContactBlock';
+export { PricingTable } from './PricingTable';

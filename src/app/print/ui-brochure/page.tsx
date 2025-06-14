@@ -1,9 +1,29 @@
 'use client';
 
-import React from 'react';
-import UIBasedA4 from '@/components/brochure/UIBasedA4';
+import React, { useEffect, useState } from 'react';
+import TestBrochure from '@/components/brochure/TestBrochure';
+import { BrochureRenderer } from '@/components/brochure/BrochureRenderer';
+import { BrochureContent } from '@/types/brochure';
 
 const PrintUIBrochurePage: React.FC = () => {
+  const [brochureContent, setBrochureContent] = useState<BrochureContent | null>(null);
+
+  useEffect(() => {
+    // Try to get content from URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const contentParam = urlParams.get('content');
+    
+    if (contentParam) {
+      try {
+        const content = JSON.parse(decodeURIComponent(contentParam));
+        setBrochureContent(content);
+        console.log('Print route received content:', content);
+      } catch (error) {
+        console.error('Failed to parse brochure content from URL:', error);
+      }
+    }
+  }, []);
+
   return (
     <>
       <style jsx global>{`
@@ -38,7 +58,11 @@ const PrintUIBrochurePage: React.FC = () => {
           display: none !important;
         }
       `}</style>
-      <UIBasedA4 />
+      {brochureContent ? (
+        <BrochureRenderer content={brochureContent} />
+      ) : (
+        <TestBrochure />
+      )}
     </>
   );
 };

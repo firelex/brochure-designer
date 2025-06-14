@@ -14,14 +14,6 @@ This is a **clean, focused Next.js application** for generating business report 
   2. Puppeteer visits this route server-side
   3. Generates PDF with exact visual fidelity
 
-### Removed/Cleaned Up
-- ❌ Old HTML-based PDF export (`/api/export-pdf`)
-- ❌ JPM references throughout codebase
-- ❌ Unused brochure components (BrochureElements, BrochureTemplate, TestBrochure)
-- ❌ captureStyles utility (no longer needed)
-- ❌ brochure-demo route
-- ✅ Kept only: `/ui-brochure` route with URL-based PDF export
-
 ## Important File Structure
 
 ```

@@ -1,0 +1,285 @@
+{
+  "title": "Complete Business Transformation Solutions",
+  "description": "Comprehensive consulting services that drive measurable growth, innovation, and operational excellence across all business verticals",
+  "settings": {
+    "theme": "light",
+    "pageCount": 1,
+    "fontSize": "large",
+    "colorScheme": "blue", 
+    "layoutDensity": "spacious"
+  },
+  "sections": [
+    {
+      "type": "hero",
+      "title": "Transform Your Enterprise with Industry-Leading Expertise",
+      "subtitle": "Trusted by Fortune 500 Companies Since 2010",
+      "description": "Our comprehensive suite of consulting services has helped over 1,000 businesses achieve unprecedented growth through strategic planning, operational optimization, and innovative technology solutions that deliver measurable results.",
+      "ctaButton": {
+        "text": "Schedule Your Strategic Assessment",
+        "variant": "primary"
+      }
+    },
+    {
+      "type": "metrics",
+      "title": "Proven Track Record of Excellence",
+      "metrics": [
+        {
+          "title": "Clients Served",
+          "value": "1,000+",
+          "change": {
+            "value": 45,
+            "type": "increase"
+          },
+          "icon": "users"
+        },
+        {
+          "title": "Average ROI",
+          "value": "340%",
+          "change": {
+            "value": 25,
+            "type": "increase"
+          },
+          "icon": "chart"
+        },
+        {
+          "title": "Success Rate",
+          "value": "99.2%",
+          "change": {
+            "value": 8,
+            "type": "increase"
+          },
+          "icon": "star"
+        }
+      ]
+    },
+    {
+      "type": "features",
+      "title": "Comprehensive Service Portfolio",
+      "description": "End-to-end solutions designed to address every aspect of your business transformation journey",
+      "columns": 4,
+      "features": [
+        {
+          "id": "strategy",
+          "title": "Strategic Planning",
+          "description": "Develop comprehensive business strategies that align with your long-term vision and market opportunities",
+          "icon": "chart"
+        },
+        {
+          "id": "operations",
+          "title": "Operations Excellence",
+          "description": "Optimize your processes and workflows to maximize efficiency and reduce operational costs",
+          "icon": "cog"
+        },
+        {
+          "id": "growth",
+          "title": "Growth Acceleration",
+          "description": "Implement proven methodologies to scale your business and enter new markets successfully",
+          "icon": "lightning"
+        },
+        {
+          "id": "innovation",
+          "title": "Innovation Management",
+          "description": "Foster a culture of innovation and implement cutting-edge solutions for competitive advantage",
+          "icon": "star"
+        },
+        {
+          "id": "leadership",
+          "title": "Leadership Development",
+          "description": "Build strong leadership capabilities throughout your organization for sustainable success",
+          "icon": "users"
+        },
+        {
+          "id": "advisory",
+          "title": "Executive Advisory",
+          "description": "Access senior-level expertise and guidance for complex business decisions and challenges",
+          "icon": "shield"
+        }
+      ]
+    },
+    {
+      "type": "timeline",
+      "title": "Our Proven Methodology",
+      "description": "A systematic approach that ensures successful outcomes",
+      "steps": [
+        {
+          "id": "1",
+          "label": "Discovery & Assessment",
+          "status": "completed",
+          "timestamp": "Week 1-2",
+          "description": "Comprehensive analysis of current state and opportunities"
+        },
+        {
+          "id": "2",
+          "label": "Strategic Planning",
+          "status": "completed",
+          "timestamp": "Week 3-4",
+          "description": "Development of customized transformation roadmap"
+        },
+        {
+          "id": "3",
+          "label": "Implementation",
+          "status": "current",
+          "timestamp": "Week 5-12",
+          "description": "Execution of strategic initiatives with ongoing support"
+        },
+        {
+          "id": "4",
+          "label": "Optimization",
+          "status": "pending",
+          "timestamp": "Week 13-16",
+          "description": "Continuous improvement and performance monitoring"
+        },
+        {
+          "id": "5",
+          "label": "Sustaining Success",
+          "status": "pending",
+          "timestamp": "Ongoing",
+          "description": "Long-term partnership for continued growth"
+        }
+      ]
+    },
+    {
+      "type": "testimonial",
+      "quote": "Working with this consulting team has been absolutely transformational for our organization. They didn't just provide recommendations - they worked alongside us to implement real, lasting change that has revolutionized how we operate and compete in the marketplace.",
+      "author": {
+        "name": "Sarah Mitchell",
+        "title": "Chief Executive Officer",
+        "company": "Global Innovations Corp"
+      },
+      "rating": 5,
+      "layout": "centered"
+    },
+    {
+      "type": "pricing",
+      "title": "Investment Options",
+      "description": "Flexible engagement models designed to deliver maximum value for your investment",
+      "tiers": [
+        {
+          "id": "assessment",
+          "name": "Strategic Assessment",
+          "price": "$5,000",
+          "period": "engagement",
+          "description": "Comprehensive analysis and strategic roadmap",
+          "features": [
+            {
+              "text": "Complete business assessment",
+              "included": true
+            },
+            {
+              "text": "Strategic roadmap development",
+              "included": true
+            },
+            {
+              "text": "Executive presentation",
+              "included": true
+            },
+            {
+              "text": "Implementation support",
+              "included": false
+            },
+            {
+              "text": "Ongoing advisory",
+              "included": false
+            }
+          ],
+          "ctaButton": {
+            "text": "Learn More",
+            "variant": "secondary"
+          }
+        },
+        {
+          "id": "partnership",
+          "name": "Growth Partnership",
+          "price": "$15,000",
+          "period": "month",
+          "description": "Ongoing strategic partnership for scaling businesses",
+          "highlighted": true,
+          "badge": "Most Popular",
+          "features": [
+            {
+              "text": "Full strategic consulting",
+              "included": true
+            },
+            {
+              "text": "Implementation support",
+              "included": true
+            },
+            {
+              "text": "Monthly strategy sessions",
+              "included": true
+            },
+            {
+              "text": "Priority support",
+              "included": true
+            },
+            {
+              "text": "Performance tracking",
+              "included": true
+            }
+          ],
+          "ctaButton": {
+            "text": "Get Started",
+            "variant": "primary"
+          }
+        },
+        {
+          "id": "enterprise",
+          "name": "Enterprise Transformation",
+          "price": "Custom",
+          "description": "Complete transformation for large organizations",
+          "features": [
+            {
+              "text": "Enterprise-wide transformation",
+              "included": true
+            },
+            {
+              "text": "Dedicated project team",
+              "included": true
+            },
+            {
+              "text": "Custom methodology",
+              "included": true
+            },
+            {
+              "text": "24/7 support",
+              "included": true
+            },
+            {
+              "text": "Success guarantees",
+              "included": true
+            }
+          ],
+          "ctaButton": {
+            "text": "Schedule Consultation",
+            "variant": "ghost"
+          }
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "title": "Ready to Transform Your Business?",
+      "description": "Contact our team of experts today to discuss how we can help you achieve your strategic objectives and unlock your organization's full potential.",
+      "contactInfo": {
+        "email": "partnerships@elevatebc.com",
+        "phone": "+1 (555) 987-6543",
+        "address": "456 Business Plaza, Suite 200, Growth City, GC 54321",
+        "website": "www.elevatebusinessconsulting.com"
+      },
+      "socialLinks": [
+        {
+          "platform": "linkedin",
+          "url": "https://linkedin.com/company/elevatebc"
+        },
+        {
+          "platform": "twitter",
+          "url": "https://twitter.com/elevatebc"
+        }
+      ],
+      "ctaButton": {
+        "text": "Book Your Free Strategic Consultation",
+        "variant": "primary"
+      }
+    }
+  ]
+}

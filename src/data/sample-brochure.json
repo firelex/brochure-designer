@@ -1,0 +1,243 @@
+{
+  "title": "Elevate Your Business",
+  "description": "Professional consulting services that drive growth and innovation",
+  "settings": {
+    "theme": "light",
+    "pageCount": 1,
+    "fontSize": "medium",
+    "colorScheme": "blue", 
+    "layoutDensity": "normal"
+  },
+  "sections": [
+    {
+      "type": "hero",
+      "title": "Partner with Industry Leaders",
+      "subtitle": "Proven Results Since 2015",
+      "description": "Our expert team has helped over 500 businesses achieve measurable growth through strategic consulting and innovative solutions.",
+      "ctaButton": {
+        "text": "Get Started Today",
+        "variant": "primary"
+      }
+    },
+    {
+      "type": "metrics",
+      "title": "Measurable Results",
+      "metrics": [
+        {
+          "title": "Clients Served",
+          "value": "500+",
+          "change": {
+            "value": 25,
+            "type": "increase"
+          },
+          "icon": "users"
+        },
+        {
+          "title": "Cost Savings",
+          "value": "$2.4M",
+          "change": {
+            "value": 15,
+            "type": "increase"
+          },
+          "icon": "dollar"
+        },
+        {
+          "title": "Success Rate",
+          "value": "98%",
+          "change": {
+            "value": 5,
+            "type": "increase"
+          },
+          "icon": "star"
+        }
+      ]
+    },
+    {
+      "type": "features",
+      "title": "What We Offer",
+      "description": "Comprehensive services designed to unlock your business potential",
+      "columns": 3,
+      "features": [
+        {
+          "id": "strategy",
+          "title": "Strategic Planning",
+          "description": "Develop comprehensive business strategies that align with your long-term vision and market opportunities",
+          "icon": "chart"
+        },
+        {
+          "id": "operations",
+          "title": "Operations Excellence",
+          "description": "Optimize your processes and workflows to maximize efficiency and reduce operational costs",
+          "icon": "cog"
+        },
+        {
+          "id": "growth",
+          "title": "Growth Acceleration",
+          "description": "Implement proven methodologies to scale your business and enter new markets successfully",
+          "icon": "lightning"
+        },
+        {
+          "id": "innovation",
+          "title": "Innovation Management",
+          "description": "Foster a culture of innovation and implement cutting-edge solutions for competitive advantage",
+          "icon": "star"
+        },
+        {
+          "id": "leadership",
+          "title": "Leadership Development",
+          "description": "Build strong leadership capabilities throughout your organization for sustainable success",
+          "icon": "users"
+        },
+        {
+          "id": "advisory",
+          "title": "Executive Advisory",
+          "description": "Access senior-level expertise and guidance for complex business decisions and challenges",
+          "icon": "shield"
+        }
+      ]
+    },
+    {
+      "type": "testimonial",
+      "quote": "Working with this team has been transformational for our business. We've seen remarkable growth and our processes are now streamlined beyond what we thought possible.",
+      "author": {
+        "name": "Michael Chen",
+        "title": "Founder & CEO",
+        "company": "Growth Dynamics"
+      },
+      "rating": 5,
+      "layout": "centered"
+    },
+    {
+      "type": "pricing",
+      "title": "Investment Options",
+      "description": "Flexible engagement models designed to deliver maximum value for your investment",
+      "tiers": [
+        {
+          "id": "starter",
+          "name": "Strategic Assessment",
+          "price": "$2,500",
+          "period": "engagement",
+          "description": "Comprehensive analysis and strategic roadmap for small to medium businesses",
+          "features": [
+            {
+              "text": "Process assessment and planning",
+              "included": true
+            },
+            {
+              "text": "Basic automation setup",
+              "included": true
+            },
+            {
+              "text": "Email support",
+              "included": true
+            },
+            {
+              "text": "Advanced analytics",
+              "included": false
+            },
+            {
+              "text": "24/7 phone support",
+              "included": false
+            }
+          ],
+          "ctaButton": {
+            "text": "Learn More",
+            "variant": "secondary"
+          }
+        },
+        {
+          "id": "professional",
+          "name": "Growth Partnership",
+          "price": "$8,500",
+          "period": "month",
+          "description": "Ongoing strategic partnership for scaling businesses",
+          "highlighted": true,
+          "badge": "Most Popular",
+          "features": [
+            {
+              "text": "Complete process automation",
+              "included": true
+            },
+            {
+              "text": "Strategic consulting sessions",
+              "included": true
+            },
+            {
+              "text": "Advanced analytics dashboard",
+              "included": true
+            },
+            {
+              "text": "Priority support",
+              "included": true
+            },
+            {
+              "text": "Custom integrations",
+              "included": true
+            }
+          ],
+          "ctaButton": {
+            "text": "Get Started",
+            "variant": "primary"
+          }
+        },
+        {
+          "id": "enterprise",
+          "name": "Enterprise",
+          "price": "Custom",
+          "description": "Tailored solutions for large organizations",
+          "features": [
+            {
+              "text": "Enterprise-grade automation",
+              "included": true
+            },
+            {
+              "text": "Dedicated account manager",
+              "included": true
+            },
+            {
+              "text": "Custom reporting & analytics",
+              "included": true
+            },
+            {
+              "text": "24/7 phone & chat support",
+              "included": true
+            },
+            {
+              "text": "On-premise deployment options",
+              "included": true
+            }
+          ],
+          "ctaButton": {
+            "text": "Schedule Consultation",
+            "variant": "ghost"
+          }
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "title": "Let's Start the Conversation",
+      "description": "Ready to unlock your business potential? We're here to help you achieve your goals.",
+      "contactInfo": {
+        "email": "partnerships@elevatebc.com",
+        "phone": "+1 (555) 987-6543",
+        "address": "456 Business Plaza, Suite 200, Growth City, GC 54321",
+        "website": "www.elevatebusinessconsulting.com"
+      },
+      "socialLinks": [
+        {
+          "platform": "linkedin",
+          "url": "https://linkedin.com/company/elevatebc"
+        },
+        {
+          "platform": "twitter",
+          "url": "https://twitter.com/elevatebc"
+        }
+      ],
+      "ctaButton": {
+        "text": "Book Your Free Consultation",
+        "variant": "primary"
+      }
+    }
+  ]
+}

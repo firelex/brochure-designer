@@ -1,0 +1,95 @@
+{
+  "title": "Elevate Your Business",
+  "description": "Professional consulting services that drive growth and innovation",
+  "settings": {
+    "theme": "light",
+    "pageCount": 1,
+    "fontSize": "medium",
+    "colorScheme": "blue", 
+    "layoutDensity": "compact"
+  },
+  "sections": [
+    {
+      "type": "metrics",
+      "title": "Proven Results",
+      "metrics": [
+        {
+          "title": "Clients Served",
+          "value": "500+",
+          "change": {
+            "value": 25,
+            "type": "increase"
+          },
+          "icon": "users"
+        },
+        {
+          "title": "Average ROI",
+          "value": "240%",
+          "change": {
+            "value": 15,
+            "type": "increase"
+          },
+          "icon": "chart"
+        },
+        {
+          "title": "Success Rate",
+          "value": "98%",
+          "change": {
+            "value": 5,
+            "type": "increase"
+          },
+          "icon": "star"
+        }
+      ]
+    },
+    {
+      "type": "features",
+      "title": "Core Services",
+      "columns": 3,
+      "features": [
+        {
+          "id": "strategy",
+          "title": "Strategic Planning",
+          "description": "Comprehensive business strategies aligned with your vision",
+          "icon": "chart"
+        },
+        {
+          "id": "operations",
+          "title": "Operations Excellence",
+          "description": "Optimize processes to maximize efficiency and reduce costs",
+          "icon": "cog"
+        },
+        {
+          "id": "growth",
+          "title": "Growth Acceleration",
+          "description": "Proven methodologies to scale and enter new markets",
+          "icon": "lightning"
+        }
+      ]
+    },
+    {
+      "type": "testimonial",
+      "quote": "This team transformed our business. We've seen remarkable growth and streamlined processes beyond expectations.",
+      "author": {
+        "name": "Michael Chen",
+        "title": "CEO",
+        "company": "Growth Dynamics"
+      },
+      "rating": 5,
+      "layout": "inline"
+    },
+    {
+      "type": "contact",
+      "title": "Start Your Growth Journey",
+      "contactInfo": {
+        "email": "hello@elevatebc.com",
+        "phone": "+1 (555) 987-6543",
+        "website": "www.elevatebusinessconsulting.com"
+      },
+      "ctaButton": {
+        "text": "Book Free Consultation",
+        "variant": "primary"
+      }
+    }
+  ]
+}

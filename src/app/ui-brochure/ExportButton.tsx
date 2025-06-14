@@ -5,18 +5,25 @@ import Button from '@/components/ui/Button';
 
 interface ExportButtonProps {
   method?: 'html' | 'url';
+  brochureContent?: any;
 }
 
-const ExportButton: React.FC<ExportButtonProps> = ({ method = 'url' }) => {
+const ExportButton: React.FC<ExportButtonProps> = ({ method = 'url', brochureContent }) => {
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
 
   const handleExportViaURL = async () => {
     setIsGeneratingPDF(true);
     
     try {
-      // Get current URL
+      // Get current URL and pass brochure content
       const baseUrl = window.location.origin;
-      const printUrl = `${baseUrl}/print/ui-brochure`;
+      let printUrl = `${baseUrl}/print/ui-brochure`;
+      
+      // If we have brochure content, encode it as URL parameter
+      if (brochureContent) {
+        const contentParam = encodeURIComponent(JSON.stringify(brochureContent));
+        printUrl += `?content=${contentParam}`;
+      }
       
       // Call the URL-based API
       const response = await fetch('/api/export-pdf-url', {
